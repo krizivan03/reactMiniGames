@@ -49,7 +49,7 @@ class GameBoard extends React.Component{
                 <div className = "justify-content-center align-items-center p50 col-4  border border-top-0 border-bottom-0"><button id = "bottom" onClick = {()=>{var nextTurn = this.state.turn == "x" ? "o":"x"; this.setState({bottom:this.state.turn, turn:nextTurn})}} className = "p50 bg-transparent border-0 fullFont" >{this.state.bottom}</button></div>
                 <div className = "justify-content-center align-items-center p50 col-4"><button id = "bottomRight" onClick = {()=>{var nextTurn = this.state.turn == "x" ? "o":"x"; this.setState({bottomRight:this.state.turn, turn:nextTurn})}} className = "p50 bg-transparent border-0 fullFont" >{this.state.bottomRight}</button></div>
             </div>
-            <button onClick = {this.resetBoard} className ="btn">RESET</button>
+            <button onClick = {this.resetBoard} className ="btn btn-outline-dark my-3">RESET</button>
         </div>
         );
     }
