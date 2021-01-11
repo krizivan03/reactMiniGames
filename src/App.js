@@ -11,9 +11,11 @@ class App extends React.Component{
     left: 0,
     rate: 100,
     score: 0,
+    maxScore: 0,
     direction: 39, // 37 left, 38 up, 39 right, 40 down, 
-    aTop: Math.floor(Math.random() * (95 - 0) / 5) * 5 + 0,
-    aLeft: Math.floor(Math.random() * (95 - 0) / 5) * 5 + 0,
+    aTop: -100000,
+    aLeft: '',
+    btnStart: "Start",
     snakeArray: [
       [0,0],
       [0,5]
@@ -21,9 +23,11 @@ class App extends React.Component{
 }
 
 checkBounds = async () =>{
-  if (this.state.top >= 100 || this.state.top < 0 || this.state.left >= 100 || this.state.left < 0){
+  if (this.state.top >= 100 || this.state.top < 0 || this.state.left >= 95 || this.state.left < -5){
     this.setState({
-      inBounds: 0
+      inBounds: 0,
+      rate: 100,
+      score: 0
     })
     throw `Out of Bounds: TOP: ${this.state.top}, LEFT: ${this.state.left}`
   }
@@ -38,8 +42,10 @@ checkIfEatable = () =>{
     this.timer = setInterval(this.moveSnake,this.state.rate)
     var theSnake = this.state.snakeArray
     theSnake.unshift([])
+    let maxScore = this.state.score+1 > this.state.maxScore ? this.state.score+1: this.state.maxScore;
     this.setState({
       score: this.state.score + 1 ,
+      maxScore: maxScore,
       aTop: Math.floor(Math.random() * (95 - 0) / 5) * 5 + 0,
       aLeft: Math.floor(Math.random() * (95 - 0) / 5) * 5 + 0,
       rate: this.state.rate-5,
@@ -51,6 +57,21 @@ componentDidMount(){
   window.addEventListener('keydown',this.handleKeyPress);
 }
 setTimer = () =>{
+  clearInterval(this.timer)
+  this.setState({
+    inBounds:1, // 1 for yes, 0 no
+    top: 0,
+    left: 0,
+    rate: 100,
+    score: 0,
+    btnStart: "Restart",
+    direction: 39, // 37 left, 38 up, 39 right, 40 down, 
+    aTop: Math.floor(Math.random() * (95 - 0) / 5) * 5 + 0,
+    aLeft: Math.floor(Math.random() * (95 - 0) / 5) * 5 + 0,
+    snakeArray: [
+      [0,0],
+      [0,5]]
+  })
   this.timer = setInterval(this.moveSnake,this.state.rate)
 }
 
@@ -199,10 +220,16 @@ moveDown = () =>{
     let theSnake = this.state.snakeArray.map((dot,i) =>{ return(<Snake check = {this.check} top = {dot[0]} left = {dot[1]} dir = {this.state.direction}></Snake>)})
     return (
       <div className="App row text-center m-auto d-flex justify-content-center align-items-center">
-        <div className = "col-12 text-center">{this.state.score}</div>
-        <div className = "col-12"><button onClick = {this.setTimer} className = "btn btn-dark">Start</button></div>
-        <div className = "App col-12 border rounded p-1" style = {{height: `50%`, width: `50%`}}>
-        {/* <Snake check = {this.check} top = {this.state.top} left = {this.state.left} dir = {this.state.direction}></Snake> */}
+        <div className ="m-0">
+        <h1>Snake Game</h1>
+        <p>To maneuver the snake, utilize the arrow keys</p>
+        </div>
+        <div className = "col-6 m-0">
+          <div className = "my-1 text-center">{"Max Score: " + this.state.maxScore}</div>
+          <div className = "my-1 text-center">{"Current Score: " + this.state.score}</div>
+          <div className = "my-1"><button onClick = {this.setTimer} className = "btn btn-dark">{this.state.btnStart}</button></div>
+        </div>
+        <div className = "App col-6 border border-dark rounded p-1 bg-success shadow-lg" style = {{height: `50%`, width: `50%`}}>
         {theSnake}
         <Apple top = {this.state.aTop} left = {this.state.aLeft} ></Apple>
         </div>

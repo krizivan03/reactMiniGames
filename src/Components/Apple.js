@@ -15,7 +15,7 @@ class Apple extends React.Component{
     }
     render(){
         return(
-            <div className = "apple rounded" style = {{top: `${this.state.top}%`, left: `${this.state.left}%`}}></div>
+            <div className = "apple rounded shadow" style = {{top: `${this.state.top}%`, left: `${this.state.left}%`}}></div>
         );
     }
 }

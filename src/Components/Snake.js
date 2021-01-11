@@ -17,7 +17,7 @@ class Snake extends React.Component{
     }
     render(){
         return(
-                <div className = "snake mx-0 rounded " style = {{top: `${this.state.top}%`, left: `${this.state.left}%`}}></div>
+                <div className = "snake shadow-sm mx-0 rounded " style = {{top: `${this.state.top}%`, left: `${this.state.left}%`}}></div>
             
         );
     }
